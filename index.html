@@ -3,251 +3,478 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Componentes de Computadora</title>
+    <title>Componentes de una Computadora</title>
     <style>
-        * {
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-        
         body {
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-        }
-        
-        .header {
-            background-color: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        .container {
-            max-width: 800px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 15px;
+            padding: 20px;
+            background-color: #121212;
+            color: #e0e0e0;
+            transition: all 0.3s ease;
         }
-        
-        .component-card {
-            background-color: white;
-            border-radius: 8px;
-            margin-bottom: 15px;
+        h1 {
+            color: #64b5f6;
+            text-align: center;
+            margin-bottom: 40px;
+            text-shadow: 0 0 10px rgba(100, 181, 246, 0.5);
+        }
+        .componentes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .componente {
+            background-color: #1e1e1e;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .component-header {
-            padding: 15px;
-            font-weight: bold;
-            font-size: 18px;
-            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                        box-shadow 0.5s ease, 
+                        background-color 0.3s ease;
             cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            position: relative;
+            z-index: 1;
         }
-        
-        .component-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            padding: 0 15px;
+        .componente::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(30, 144, 255, 0.1), rgba(138, 43, 226, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+            border-radius: 10px;
         }
-        
-        .component-content.active {
-            max-height: 1000px;
+        .componente:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4), 0 0 15px rgba(100, 181, 246, 0.3);
+            background-color: #2a2a2a;
+        }
+        .componente:hover::before {
+            opacity: 1;
+        }
+        .componente img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 1px solid #333;
+            transition: transform 0.5s ease;
+            filter: brightness(0.85);
+        }
+        .componente:hover img {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+        .componente-nombre {
             padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            color: #90caf9;
+            transition: color 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        
-        .arrow {
+        .componente:hover .componente-nombre {
+            color: #64b5f6;
+        }
+        .componente-nombre::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: #64b5f6;
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+        .componente:hover .componente-nombre::after {
+            width: 80%;
+            left: 10%;
+        }
+        #modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow: auto;
+            backdrop-filter: blur(5px);
+        }
+        .modal-contenido {
+            background-color: #1e1e1e;
+            margin: 10% auto;
+            padding: 30px;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(100, 181, 246, 0.3);
+            position: relative;
+            animation: none;
+            color: #e0e0e0;
+            border: 1px solid #333;
+        }
+        @keyframes aparecer {
+            0% { opacity: 0; transform: scale(0.9) translateY(-50px); }
+            70% { transform: scale(1.02) translateY(5px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        @keyframes brillar {
+            0% { box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(100, 181, 246, 0.3); }
+            50% { box-shadow: 0 5px 30px rgba(0, 0, 0, 0.6), 0 0 30px rgba(100, 181, 246, 0.5); }
+            100% { box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(100, 181, 246, 0.3); }
+        }
+        .modal-contenido.aparecer {
+            animation: aparecer 0.6s ease-out forwards, brillar 3s ease-in-out infinite;
+        }
+        .cerrar {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            color: #777;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .cerrar:hover {
+            color: #e74c3c;
+            background-color: rgba(231, 76, 60, 0.1);
+            transform: rotate(90deg);
+        }
+        .modal-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+            position: relative;
+        }
+        .modal-header h2 {
+            margin-top: 0;
+            color: #64b5f6;
+            text-shadow: 0 0 10px rgba(100, 181, 246, 0.3);
+        }
+        .modal-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #64b5f6, #8e24aa);
+            animation: expandir 1s ease-out forwards;
+        }
+        @keyframes expandir {
+            from { width: 0; }
+            to { width: 100px; }
+        }
+        .modal-img {
+            float: right;
+            width: 200px;
+            margin: 0 0 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            animation: entradaImagen 1s ease-out forwards;
+            opacity: 0;
+        }
+        @keyframes entradaImagen {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .modal-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 0 15px rgba(100, 181, 246, 0.4);
+        }
+        #modal-descripcion {
+            line-height: 1.6;
+            margin-bottom: 20px;
+            animation: aparecer-texto 1.2s ease-out forwards;
+            opacity: 0;
+        }
+        @keyframes aparecer-texto {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .caracteristicas {
+            margin-top: 20px;
+            background-color: #252525;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+            border: 1px solid #333;
+            animation: aparecer-caract 1.4s ease-out forwards;
+            opacity: 0;
+        }
+        @keyframes aparecer-caract {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .caracteristicas h3 {
+            margin-top: 0;
+            color: #90caf9;
+            position: relative;
+            display: inline-block;
+        }
+        .caracteristicas h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #90caf9;
+            animation: expandir-subtitulo 1.5s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+        @keyframes expandir-subtitulo {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 5px;
             transition: transform 0.3s ease;
         }
-        
-        .arrow.active {
-            transform: rotate(180deg);
+        li::marker {
+            color: #64b5f6;
         }
-        
-        /* Colores para los componentes */
-        .cpu { background-color: #e74c3c; }
-        .ram { background-color: #3498db; }
-        .disk { background-color: #9b59b6; }
-        .motherboard { background-color: #2ecc71; }
-        .gpu { background-color: #e84393; }
-        .power { background-color: #f1c40f; }
-        .cooling { background-color: #00cec9; }
-        .network { background-color: #fd79a8; }
+        li:hover {
+            transform: translateX(5px);
+            color: #fff;
+        }
+        @media (max-width: 768px) {
+            .modal-contenido {
+                width: 95%;
+                margin: 10% auto;
+                padding: 20px;
+            }
+            .modal-img {
+                float: none;
+                width: 100%;
+                margin: 0 0 15px 0;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Componentes de Computadora</h1>
+    <h1>Componentes de una Computadora</h1>
+    <div class="componentes-grid">
+        <div class="componente" onclick="mostrarDetalle('motherboard')">
+            <img src="https://w7.pngwing.com/pngs/206/211/png-transparent-lga-1151-motherboard-atx-chipset-ddr4-sdram-power-socket-miscellaneous-electronics-computer.png" alt="Placa Madre (Motherboard)">
+            <div class="componente-nombre">Placa Madre (Motherboard)</div>
+        </div>
+        <div class="componente" onclick="mostrarDetalle('ram')">
+            <img src="https://w7.pngwing.com/pngs/929/572/png-transparent-ram-computer-memory-flash-memory-rom-computer-computer-ram-electronic-device.png" alt="Memoria RAM">
+            <div class="componente-nombre">Memoria RAM</div>
+        </div>
+        <div class="componente" onclick="mostrarDetalle('cpu')">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSWmNynjXptNXAvy_-EmZnVWCMRNczpSndEZ_BGtDHclajnXlrwujTrua68KF9_GvPgtM&usqp=CAU" alt="Procesador (CPU)">
+            <div class="componente-nombre">Procesador (CPU)</div>
+        </div>
+        <div class="componente" onclick="mostrarDetalle('hdd')">
+            <img src="https://w7.pngwing.com/pngs/839/658/png-transparent-seagate-barracuda-hdd-3-5-hard-drives-serial-ata-seagate-desktop-hdd-others-hard-disk-drive-electronic-device-data-storage-thumbnail.png" alt="Disco Duro (HDD)">
+            <div class="componente-nombre">Disco Duro (HDD)</div>
+        </div>
+        <div class="componente" onclick="mostrarDetalle('cooler')">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKymstNfpDNm38msAzkWnE5k9ZFthMmZgqLPOMA2nJXHQfLZOY17NLsUzweffWDS4SoP0&usqp=CAU" alt="Sistema de Enfriamiento">
+            <div class="componente-nombre">Sistema de Enfriamiento</div>
+        </div>
+        <div class="componente" onclick="mostrarDetalle('fuente')">
+            <img src="https://st.depositphotos.com/1580652/1919/i/450/depositphotos_19198361-stock-photo-computer-power-supply-unit.jpg" alt="Fuente de Poder">
+            <div class="componente-nombre">Fuente de Poder</div>
+        </div>
+        <div class="componente" onclick="mostrarDetalle('gpu')">
+            <img src="https://static.gigabyte.com/StaticFile/Image/Global/57c293ca70fd34ebc5682cf6e283a660/Product/23932/png/1000" alt="Tarjeta Gráfica (GPU)">
+            <div class="componente-nombre">Tarjeta Gráfica (GPU)</div>
+        </div>
+        <div class="componente" onclick="mostrarDetalle('ssd')">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfjuyYIbNFo0JYmowkKkc6tS0Q5_TihrqK3s_vyKe_O5J4bu-DC9QQC9ibtuXkU3PhGlI&usqp=CAU" alt="Unidad de Estado Sólido (SSD)">
+            <div class="componente-nombre">Unidad de Estado Sólido (SSD)</div>
+        </div>
     </div>
-    
-    <div class="container">
-        <!-- CPU -->
-        <div class="component-card">
-            <div class="component-header cpu" onclick="toggleContent(this)">
-                <span>CPU (Procesador)</span>
-                <span class="arrow">▼</span>
+
+    <div id="modal">
+        <div class="modal-contenido">
+            <span class="cerrar" onclick="cerrarModal()">&times;</span>
+            <div class="modal-header">
+                <h2 id="modal-titulo"></h2>
             </div>
-            <div class="component-content">
-                <p>La Unidad Central de Procesamiento (CPU) es el cerebro de la computadora. Es responsable de interpretar y ejecutar la mayoría de los comandos del hardware y software.</p>
-                <p>Realiza operaciones aritméticas, lógicas y de entrada/salida del sistema. Los procesadores modernos contienen múltiples núcleos que permiten realizar varias tareas simultáneamente.</p>
-                <p><strong>Características principales:</strong></p>
-                <ul>
-                    <li>Velocidad medida en GHz</li>
-                    <li>Múltiples núcleos para procesamiento paralelo</li>
-                    <li>Caché para almacenamiento temporal de datos</li>
-                    <li>Socket específico para conectarse a la placa madre</li>
-                </ul>
-            </div>
-        </div>
-        
-        <!-- RAM -->
-        <div class="component-card">
-            <div class="component-header ram" onclick="toggleContent(this)">
-                <span>RAM (Memoria)</span>
-                <span class="arrow">▼</span>
-            </div>
-            <div class="component-content">
-                <p>La Memoria de Acceso Aleatorio (RAM) es un tipo de memoria volátil que almacena temporalmente los datos que están siendo utilizados activamente.</p>
-                <p>La RAM permite un acceso rápido a la información mientras la computadora está encendida. A mayor cantidad de RAM, más aplicaciones pueden ejecutarse simultáneamente sin ralentizar el sistema.</p>
-                <p><strong>Características principales:</strong></p>
-                <ul>
-                    <li>Capacidad medida en GB</li>
-                    <li>Velocidad medida en MHz o Gbps</li>
-                    <li>Tipos: DDR4, DDR5, etc.</li>
-                    <li>Memoria volátil (se borra al apagar)</li>
-                </ul>
-            </div>
-        </div>
-        
-        <!-- Disco Duro -->
-        <div class="component-card">
-            <div class="component-header disk" onclick="toggleContent(this)">
-                <span>Disco Duro</span>
-                <span class="arrow">▼</span>
-            </div>
-            <div class="component-content">
-                <p>El disco duro es un dispositivo de almacenamiento no volátil que conserva los datos incluso cuando la computadora está apagada.</p>
-                <p>Almacena el sistema operativo, aplicaciones y archivos personales. Existen dos tipos principales: HDD (mecánicos) y SSD (estado sólido), siendo estos últimos mucho más rápidos.</p>
-                <p><strong>Características principales:</strong></p>
-                <ul>
-                    <li>Capacidad medida en GB o TB</li>
-                    <li>Velocidad de lectura/escritura</li>
-                    <li>Interfaces: SATA, NVMe, etc.</li>
-                    <li>Tiempo de acceso (más bajo en SSD)</li>
-                </ul>
-            </div>
-        </div>
-        
-        <!-- Tarjeta Madre -->
-        <div class="component-card">
-            <div class="component-header motherboard" onclick="toggleContent(this)">
-                <span>Tarjeta Madre</span>
-                <span class="arrow">▼</span>
-            </div>
-            <div class="component-content">
-                <p>La tarjeta madre es la placa principal del sistema que conecta y permite la comunicación entre todos los componentes de la computadora.</p>
-                <p>Contiene circuitos y ranuras de expansión para CPU, RAM, tarjetas gráficas y otros periféricos. Determina qué componentes son compatibles con el sistema.</p>
-                <p><strong>Características principales:</strong></p>
-                <ul>
-                    <li>Socket de CPU</li>
-                    <li>Chipset</li>
-                    <li>Ranuras de expansión (PCI-E, etc.)</li>
-                    <li>Puertos de conexión (USB, SATA, etc.)</li>
-                </ul>
-            </div>
-        </div>
-        
-        <!-- Tarjeta Gráfica -->
-        <div class="component-card">
-            <div class="component-header gpu" onclick="toggleContent(this)">
-                <span>Tarjeta Gráfica (GPU)</span>
-                <span class="arrow">▼</span>
-            </div>
-            <div class="component-content">
-                <p>La Unidad de Procesamiento Gráfico (GPU) se encarga de procesar y renderizar imágenes, vídeos y animaciones.</p>
-                <p>Libera al CPU de estas tareas intensivas, mejorando el rendimiento general del sistema. Es especialmente importante para videojuegos, diseño gráfico y edición de vídeo.</p>
-                <p><strong>Características principales:</strong></p>
-                <ul>
-                    <li>Memoria gráfica (VRAM)</li>
-                    <li>Núcleos CUDA/Stream Processors</li>
-                    <li>Frecuencia base y boost</li>
-                    <li>Conectores de salida (HDMI, DisplayPort)</li>
-                </ul>
-            </div>
-        </div>
-        
-        <!-- Fuente de Poder -->
-        <div class="component-card">
-            <div class="component-header power" onclick="toggleContent(this)">
-                <span>Fuente de Poder</span>
-                <span class="arrow">▼</span>
-            </div>
-            <div class="component-content">
-                <p>La fuente de poder convierte la corriente alterna (AC) de la red eléctrica en corriente continua (DC) que utilizan los componentes internos.</p>
-                <p>Suministra electricidad estable y regulada a todos los componentes. Su potencia se mide en vatios (W) y debe ser suficiente para alimentar todos los componentes del sistema.</p>
-                <p><strong>Características principales:</strong></p>
-                <ul>
-                    <li>Potencia en vatios (W)</li>
-                    <li>Certificación de eficiencia (80+ Bronze, Gold, etc.)</li>
-                    <li>Modularidad de cables</li>
-                    <li>Protecciones eléctricas</li>
-                </ul>
-            </div>
-        </div>
-        
-        <!-- Ventiladores y Disipadores -->
-        <div class="component-card">
-            <div class="component-header cooling" onclick="toggleContent(this)">
-                <span>Ventiladores y Disipadores</span>
-                <span class="arrow">▼</span>
-            </div>
-            <div class="component-content">
-                <p>Los ventiladores y disipadores extraen el calor generado por los componentes, especialmente el procesador y la tarjeta gráfica.</p>
-                <p>Mantienen una temperatura óptima para evitar el sobrecalentamiento que podría dañar los componentes o reducir su vida útil. Existen sistemas de refrigeración por aire y por líquido.</p>
-                <p><strong>Características principales:</strong></p>
-                <ul>
-                    <li>Velocidad de giro (RPM)</li>
-                    <li>Flujo de aire (CFM)</li>
-                    <li>Nivel de ruido (dB)</li>
-                    <li>Tamaño (mm)</li>
-                </ul>
-            </div>
-        </div>
-        
-        <!-- Placa de Red -->
-        <div class="component-card">
-            <div class="component-header network" onclick="toggleContent(this)">
-                <span>Placa de Red</span>
-                <span class="arrow">▼</span>
-            </div>
-            <div class="component-content">
-                <p>La placa de red permite la conexión a redes locales e Internet. Puede ser integrada en la placa madre o instalada como una tarjeta de expansión.</p>
-                <p>Existen placas de red cableadas (Ethernet) e inalámbricas (Wi-Fi), cada una con diferentes velocidades y estándares.</p>
-                <p><strong>Características principales:</strong></p>
-                <ul>
-                    <li>Velocidad (Mbps/Gbps)</li>
-                    <li>Estándares soportados (802.11ac, etc.)</li>
-                    <li>Bandas de frecuencia (2.4GHz, 5GHz)</li>
-                    <li>Bluetooth integrado (en placas inalámbricas)</li>
-                </ul>
+            <img id="modal-imagen" src="" alt="" class="modal-img">
+            <div id="modal-descripcion"></div>
+            <div class="caracteristicas">
+                <h3>Características principales:</h3>
+                <ul id="modal-caracteristicas"></ul>
             </div>
         </div>
     </div>
-    
+
     <script>
-        function toggleContent(element) {
-            const content = element.nextElementSibling;
-            const arrow = element.querySelector('.arrow');
+        const componentes = {
+            cpu: {
+                nombre: "Procesador (CPU)",
+                imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSWmNynjXptNXAvy_-EmZnVWCMRNczpSndEZ_BGtDHclajnXlrwujTrua68KF9_GvPgtM&usqp=CAU",
+                descripcion: "El procesador o CPU (Unidad Central de Procesamiento) es considerado el cerebro de la computadora. Es el componente más importante ya que se encarga de interpretar y ejecutar instrucciones, realizar cálculos y procesar datos.",
+                caracteristicas: [
+                    "Ejecuta millones de instrucciones por segundo",
+                    "Se mide en GHz (velocidad de reloj) y núcleos (cantidad de procesadores independientes)",
+                    "Genera calor durante su funcionamiento, por lo que requiere un sistema de refrigeración",
+                    "Ejemplos populares: Intel Core i7, AMD Ryzen, Apple M1",
+                    "Influye directamente en el rendimiento general del equipo"
+                ]
+            },
+            ram: {
+                nombre: "Memoria RAM",
+                imagen: "https://w7.pngwing.com/pngs/929/572/png-transparent-ram-computer-memory-flash-memory-rom-computer-computer-ram-electronic-device.png",
+                descripcion: "La memoria RAM (Random Access Memory) es el espacio de trabajo temporal del sistema. Almacena datos y programas que están en uso activo para que el procesador pueda acceder a ellos rápidamente. Es volátil, lo que significa que su contenido se pierde cuando se apaga la computadora.",
+                caracteristicas: [
+                    "Permite el acceso rápido a los datos que se están utilizando",
+                    "Se mide en GB (gigabytes) o TB (terabytes)",
+                    "Mayor cantidad de RAM permite ejecutar más programas simultáneamente",
+                    "Existen diferentes generaciones: DDR3, DDR4, DDR5, cada una más rápida que la anterior",
+                    "Es uno de los componentes más fáciles de actualizar en una computadora"
+                ]
+            },
+            motherboard: {
+                nombre: "Placa Madre (Motherboard)",
+                imagen: "https://w7.pngwing.com/pngs/206/211/png-transparent-lga-1151-motherboard-atx-chipset-ddr4-sdram-power-socket-miscellaneous-electronics-computer.png",
+                descripcion: "La placa madre o motherboard es la tarjeta de circuito principal de la computadora. Funciona como el sistema nervioso central que conecta y permite la comunicación entre todos los componentes del equipo. Todos los demás componentes se conectan directa o indirectamente a ella.",
+                caracteristicas: [
+                    "Contiene el socket para el procesador",
+                    "Incluye ranuras para la memoria RAM",
+                    "Proporciona conectores para almacenamiento (SATA, M.2)",
+                    "Ofrece ranuras de expansión para tarjetas adicionales (PCIe)",
+                    "Incluye el chipset que controla la comunicación entre componentes",
+                    "Viene en diferentes formatos como ATX, Micro-ATX o Mini-ITX"
+                ]
+            },
+            hdd: {
+                nombre: "Disco Duro (HDD)",
+                imagen: "https://w7.pngwing.com/pngs/839/658/png-transparent-seagate-barracuda-hdd-3-5-hard-drives-serial-ata-seagate-desktop-hdd-others-hard-disk-drive-electronic-device-data-storage-thumbnail.png",
+                descripcion: "El disco duro o HDD (Hard Disk Drive) es un dispositivo de almacenamiento permanente. Utiliza discos magnéticos giratorios para guardar datos a largo plazo, incluso cuando la computadora está apagada. Es donde se instala el sistema operativo y se guardan los archivos del usuario.",
+                caracteristicas: [
+                    "Ofrece gran capacidad de almacenamiento por un costo relativamente bajo",
+                    "Velocidades típicas de lectura/escritura entre 80-160 MB/s",
+                    "Es más lento que los SSD debido a sus partes mecánicas",
+                    "Disponible en capacidades desde 500GB hasta 20TB o más",
+                    "Más susceptible a daños por golpes debido a sus partes móviles",
+                    "Genera calor y ruido durante su funcionamiento"
+                ]
+            },
+            ssd: {
+                nombre: "Unidad de Estado Sólido (SSD)",
+                imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfjuyYIbNFo0JYmowkKkc6tS0Q5_TihrqK3s_vyKe_O5J4bu-DC9QQC9ibtuXkU3PhGlI&usqp=CAU",
+                descripcion: "La unidad de estado sólido o SSD (Solid State Drive) es una alternativa moderna al disco duro tradicional. Utiliza memoria flash para almacenar datos de forma permanente, sin partes móviles. Esto los hace mucho más rápidos, silenciosos y duraderos que los HDD.",
+                caracteristicas: [
+                    "Velocidades de lectura/escritura de 500-7000 MB/s (mucho más rápido que HDD)",
+                    "Sin partes móviles, lo que reduce fallas mecánicas",
+                    "Operación silenciosa y con menor generación de calor",
+                    "Menor consumo de energía que los discos duros tradicionales",
+                    "Disponible en diferentes formatos: SATA, M.2, NVMe",
+                    "Precio más elevado por GB comparado con HDD"
+                ]
+            },
+            gpu: {
+                nombre: "Tarjeta Gráfica (GPU)",
+                imagen: "https://static.gigabyte.com/StaticFile/Image/Global/57c293ca70fd34ebc5682cf6e283a660/Product/23932/png/1000",
+                descripcion: "La tarjeta gráfica o GPU (Unidad de Procesamiento Gráfico) es el componente responsable de procesar y generar imágenes, videos y animaciones para mostrar en la pantalla. Es especialmente importante para videojuegos, diseño gráfico, edición de video y otras tareas que requieren alto rendimiento visual.",
+                caracteristicas: [
+                    "Contiene su propio procesador especializado en cálculos gráficos",
+                    "Incluye memoria dedicada (VRAM) para procesar datos visuales",
+                    "Soporta diferentes puertos de salida como HDMI, DisplayPort, DVI",
+                    "Marcas populares incluyen NVIDIA y AMD",
+                    "Fundamentales para videojuegos, modelado 3D y minería de criptomonedas",
+                    "Las más potentes pueden requerir conectores de alimentación adicionales"
+                ]
+            },
+            cooler: {
+                nombre: "Sistema de Enfriamiento",
+                imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKymstNfpDNm38msAzkWnE5k9ZFthMmZgqLPOMA2nJXHQfLZOY17NLsUzweffWDS4SoP0&usqp=CAU",
+                descripcion: "El sistema de enfriamiento es crucial para mantener los componentes de la computadora a temperaturas seguras de operación. Existen varios tipos, desde ventiladores básicos hasta sistemas de refrigeración líquida avanzados. Sin un enfriamiento adecuado, los componentes pueden sobrecalentarse, reduciendo su vida útil o causando fallos en el sistema.",
+                caracteristicas: [
+                    "Disipadores de calor: extraen calor del componente mediante conductividad térmica",
+                    "Ventiladores: mueven el aire para disipar el calor",
+                    "Refrigeración líquida: utiliza líquido para transferir calor de forma más eficiente",
+                    "Pasta térmica: mejora la conductividad entre componente y disipador",
+                    "Esencial para procesadores y tarjetas gráficas potentes",
+                    "Puede incluir control de velocidad automático según la temperatura"
+                ]
+            },
+            fuente: {
+                nombre: "Fuente de Poder",
+                imagen: "https://st.depositphotos.com/1580652/1919/i/450/depositphotos_19198361-stock-photo-computer-power-supply-unit.jpg",
+                descripcion: "La fuente de poder o fuente de alimentación es el componente que suministra energía eléctrica a todos los demás elementos de la computadora. Convierte la corriente alterna (AC) de la red eléctrica en corriente continua (DC) que es la que utilizan los componentes internos del equipo.",
+                caracteristicas: [
+                    "Se mide en Watts (W), que indica la potencia máxima que puede suministrar",
+                    "Existen diferentes certificaciones de eficiencia (80 Plus Bronze, Silver, Gold, Platinum)",
+                    "Mayor eficiencia significa menos pérdida de energía y menos calor generado",
+                    "Incluye diferentes conectores para alimentar los diversos componentes",
+                    "Puede ser modular (cables desmontables) o no modular (cables fijos)",
+                    "Es recomendable elegir una con capacidad superior a la necesaria para futuras actualizaciones"
+                ]
+            }
+        };
+
+        function mostrarDetalle(componente) {
+            // Obtener referencia al modal
+            const modal = document.getElementById('modal');
+            const modalContenido = document.querySelector('.modal-contenido');
             
-            content.classList.toggle('active');
-            arrow.classList.toggle('active');
+            // Obtener datos del componente seleccionado
+            const datos = componentes[componente];
+            
+            // Actualizar contenido del modal
+            document.getElementById('modal-titulo').textContent = datos.nombre;
+            document.getElementById('modal-imagen').src = datos.imagen;
+            document.getElementById('modal-imagen').alt = datos.nombre;
+            document.getElementById('modal-descripcion').textContent = datos.descripcion;
+            
+            // Limpiar y actualizar características
+            const listaCaracteristicas = document.getElementById('modal-caracteristicas');
+            listaCaracteristicas.innerHTML = '';
+            
+            datos.caracteristicas.forEach(caracteristica => {
+                const li = document.createElement('li');
+                li.textContent = caracteristica;
+                listaCaracteristicas.appendChild(li);
+            });
+            
+            // Mostrar modal con animación
+            modal.style.display = 'block';
+            
+            // Resetear y aplicar animaciones
+            modalContenido.classList.remove('aparecer');
+            // Truco para forzar un reflow y reiniciar la animación
+            void modalContenido.offsetWidth;
+            modalContenido.classList.add('aparecer');
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // Cerrar modal al hacer clic fuera del contenido
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target == modal) {
+                cerrarModal();
+            }
         }
     </script>
 </body>
