@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Componentes de Computadora</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        
+        .component-card {
+            background-color: white;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .component-header {
+            padding: 15px;
+            font-weight: bold;
+            font-size: 18px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .component-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 15px;
+        }
+        
+        .component-content.active {
+            max-height: 1000px;
+            padding: 15px;
+        }
+        
+        .arrow {
+            transition: transform 0.3s ease;
+        }
+        
+        .arrow.active {
+            transform: rotate(180deg);
+        }
+        
+        /* Colores para los componentes */
+        .cpu { background-color: #e74c3c; }
+        .ram { background-color: #3498db; }
+        .disk { background-color: #9b59b6; }
+        .motherboard { background-color: #2ecc71; }
+        .gpu { background-color: #e84393; }
+        .power { background-color: #f1c40f; }
+        .cooling { background-color: #00cec9; }
+        .network { background-color: #fd79a8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Componentes de Computadora</h1>
+    </div>
+    
+    <div class="container">
+        <!-- CPU -->
+        <div class="component-card">
+            <div class="component-header cpu" onclick="toggleContent(this)">
+                <span>CPU (Procesador)</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="component-content">
+                <p>La Unidad Central de Procesamiento (CPU) es el cerebro de la computadora. Es responsable de interpretar y ejecutar la mayoría de los comandos del hardware y software.</p>
+                <p>Realiza operaciones aritméticas, lógicas y de entrada/salida del sistema. Los procesadores modernos contienen múltiples núcleos que permiten realizar varias tareas simultáneamente.</p>
+                <p><strong>Características principales:</strong></p>
+                <ul>
+                    <li>Velocidad medida en GHz</li>
+                    <li>Múltiples núcleos para procesamiento paralelo</li>
+                    <li>Caché para almacenamiento temporal de datos</li>
+                    <li>Socket específico para conectarse a la placa madre</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- RAM -->
+        <div class="component-card">
+            <div class="component-header ram" onclick="toggleContent(this)">
+                <span>RAM (Memoria)</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="component-content">
+                <p>La Memoria de Acceso Aleatorio (RAM) es un tipo de memoria volátil que almacena temporalmente los datos que están siendo utilizados activamente.</p>
+                <p>La RAM permite un acceso rápido a la información mientras la computadora está encendida. A mayor cantidad de RAM, más aplicaciones pueden ejecutarse simultáneamente sin ralentizar el sistema.</p>
+                <p><strong>Características principales:</strong></p>
+                <ul>
+                    <li>Capacidad medida en GB</li>
+                    <li>Velocidad medida en MHz o Gbps</li>
+                    <li>Tipos: DDR4, DDR5, etc.</li>
+                    <li>Memoria volátil (se borra al apagar)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Disco Duro -->
+        <div class="component-card">
+            <div class="component-header disk" onclick="toggleContent(this)">
+                <span>Disco Duro</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="component-content">
+                <p>El disco duro es un dispositivo de almacenamiento no volátil que conserva los datos incluso cuando la computadora está apagada.</p>
+                <p>Almacena el sistema operativo, aplicaciones y archivos personales. Existen dos tipos principales: HDD (mecánicos) y SSD (estado sólido), siendo estos últimos mucho más rápidos.</p>
+                <p><strong>Características principales:</strong></p>
+                <ul>
+                    <li>Capacidad medida en GB o TB</li>
+                    <li>Velocidad de lectura/escritura</li>
+                    <li>Interfaces: SATA, NVMe, etc.</li>
+                    <li>Tiempo de acceso (más bajo en SSD)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Tarjeta Madre -->
+        <div class="component-card">
+            <div class="component-header motherboard" onclick="toggleContent(this)">
+                <span>Tarjeta Madre</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="component-content">
+                <p>La tarjeta madre es la placa principal del sistema que conecta y permite la comunicación entre todos los componentes de la computadora.</p>
+                <p>Contiene circuitos y ranuras de expansión para CPU, RAM, tarjetas gráficas y otros periféricos. Determina qué componentes son compatibles con el sistema.</p>
+                <p><strong>Características principales:</strong></p>
+                <ul>
+                    <li>Socket de CPU</li>
+                    <li>Chipset</li>
+                    <li>Ranuras de expansión (PCI-E, etc.)</li>
+                    <li>Puertos de conexión (USB, SATA, etc.)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Tarjeta Gráfica -->
+        <div class="component-card">
+            <div class="component-header gpu" onclick="toggleContent(this)">
+                <span>Tarjeta Gráfica (GPU)</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="component-content">
+                <p>La Unidad de Procesamiento Gráfico (GPU) se encarga de procesar y renderizar imágenes, vídeos y animaciones.</p>
+                <p>Libera al CPU de estas tareas intensivas, mejorando el rendimiento general del sistema. Es especialmente importante para videojuegos, diseño gráfico y edición de vídeo.</p>
+                <p><strong>Características principales:</strong></p>
+                <ul>
+                    <li>Memoria gráfica (VRAM)</li>
+                    <li>Núcleos CUDA/Stream Processors</li>
+                    <li>Frecuencia base y boost</li>
+                    <li>Conectores de salida (HDMI, DisplayPort)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Fuente de Poder -->
+        <div class="component-card">
+            <div class="component-header power" onclick="toggleContent(this)">
+                <span>Fuente de Poder</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="component-content">
+                <p>La fuente de poder convierte la corriente alterna (AC) de la red eléctrica en corriente continua (DC) que utilizan los componentes internos.</p>
+                <p>Suministra electricidad estable y regulada a todos los componentes. Su potencia se mide en vatios (W) y debe ser suficiente para alimentar todos los componentes del sistema.</p>
+                <p><strong>Características principales:</strong></p>
+                <ul>
+                    <li>Potencia en vatios (W)</li>
+                    <li>Certificación de eficiencia (80+ Bronze, Gold, etc.)</li>
+                    <li>Modularidad de cables</li>
+                    <li>Protecciones eléctricas</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Ventiladores y Disipadores -->
+        <div class="component-card">
+            <div class="component-header cooling" onclick="toggleContent(this)">
+                <span>Ventiladores y Disipadores</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="component-content">
+                <p>Los ventiladores y disipadores extraen el calor generado por los componentes, especialmente el procesador y la tarjeta gráfica.</p>
+                <p>Mantienen una temperatura óptima para evitar el sobrecalentamiento que podría dañar los componentes o reducir su vida útil. Existen sistemas de refrigeración por aire y por líquido.</p>
+                <p><strong>Características principales:</strong></p>
+                <ul>
+                    <li>Velocidad de giro (RPM)</li>
+                    <li>Flujo de aire (CFM)</li>
+                    <li>Nivel de ruido (dB)</li>
+                    <li>Tamaño (mm)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Placa de Red -->
+        <div class="component-card">
+            <div class="component-header network" onclick="toggleContent(this)">
+                <span>Placa de Red</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="component-content">
+                <p>La placa de red permite la conexión a redes locales e Internet. Puede ser integrada en la placa madre o instalada como una tarjeta de expansión.</p>
+                <p>Existen placas de red cableadas (Ethernet) e inalámbricas (Wi-Fi), cada una con diferentes velocidades y estándares.</p>
+                <p><strong>Características principales:</strong></p>
+                <ul>
+                    <li>Velocidad (Mbps/Gbps)</li>
+                    <li>Estándares soportados (802.11ac, etc.)</li>
+                    <li>Bandas de frecuencia (2.4GHz, 5GHz)</li>
+                    <li>Bluetooth integrado (en placas inalámbricas)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function toggleContent(element) {
+            const content = element.nextElementSibling;
+            const arrow = element.querySelector('.arrow');
+            
+            content.classList.toggle('active');
+            arrow.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
